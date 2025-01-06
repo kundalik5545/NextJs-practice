@@ -50,3 +50,21 @@ export const updateUser = async (userId, data) => {
     throw new Error("Failed to update user.");
   }
 };
+
+export const deleteUser = async (userId) => {
+  await db.user.delete({
+    where: {
+      id: userId,
+    },
+  });
+
+  const res = await db.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (res == null) {
+    return { success: true, message: "User deleted!" };
+  }
+};

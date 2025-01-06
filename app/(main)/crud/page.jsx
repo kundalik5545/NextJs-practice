@@ -7,7 +7,12 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useFetch from "@/hooks/use-fetch";
-import { createUser, fetchUser, updateUser } from "@/actions/addUser";
+import {
+  createUser,
+  deleteUser,
+  fetchUser,
+  updateUser,
+} from "@/actions/addUser";
 import { Edit, Loader, Trash } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -98,6 +103,14 @@ const CrudPage = () => {
   // };
 
   // testUpdateUser();
+
+  const handleDeleteUser = async (user) => {
+    const response = await deleteUser(user.id);
+
+    if (response.success) {
+      fetchUsers();
+    }
+  };
 
   return (
     <>
@@ -193,7 +206,11 @@ const CrudPage = () => {
                         style={{ color: "black" }}
                         onClick={() => handleEditClick(user)} // Trigger edit
                       />
-                      <Trash size={18} style={{ color: "red" }} />
+                      <Trash
+                        size={18}
+                        style={{ color: "red" }}
+                        onClick={() => handleDeleteUser(user)}
+                      />
                     </TableCell>
                   </TableRow>
                 ))
